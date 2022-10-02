@@ -9,6 +9,8 @@
 - match-sorter
 - @emotion/css
 - @emotion/styled
+- react-leaflet
+- leaflet
 
 ## Running the App
 
