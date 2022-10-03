@@ -12,7 +12,7 @@ function App() {
         textAlign: "center",
       }}
     >
-      <h2>Geocoder Component</h2>
+      <h2>Location Suggestor</h2>
       <Geocoder />
     </div>
   );

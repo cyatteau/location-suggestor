@@ -19,7 +19,7 @@ import {
 import { Suggest } from "./Geocode";
 
 const API_KEY =
-  "AAPK15c8893661684d8e9e50ec33288e02e4gAytH4zbf9u7eRrv1pv4W9DTIZM0PRCpmX5KDQ8VRnaroJp9SG6AqcJToLbjV2EZ";
+  "YOUR_API_KEY";
 const authentication = new ApiKeyManager({ key: API_KEY });
 
 export default function Search() {
@@ -41,6 +41,7 @@ export default function Search() {
         authentication,
       }).then((res) => {
         const theResult = res.candidates[0];
+        setLatLong([theResult.location.y, theResult.location.x]);
         handleTheResult(theResult);
       });
     }
@@ -54,6 +55,12 @@ export default function Search() {
     setThePostal(theResult.attributes.Postal);
     setLatLong([theResult.location.y, theResult.location.x]);
   }
+
+  useEffect(() => {
+    if (map) {
+      map.setView(latLong, 12);
+    }
+  }, [latLong]);
 
   const getItems = (allItems, filter) => {
     return filter
@@ -71,14 +78,12 @@ export default function Search() {
       countryCode: "USA",
       authentication,
     }).then((res) => {
-      //console.log(res.candidates);
+      console.log(res.candidates);
+      map.setView(
+        [res.candidates[0].location.y, res.candidates[0].location.x],
+        12
+      );
     });
-  }
-
-  function FlyToButton() {
-    console.log(latLong);
-    const onClick = () => map.setView(latLong, 13);
-    return <button onClick={onClick}>Add marker on click</button>;
   }
 
   return (
@@ -101,25 +106,13 @@ export default function Search() {
           getMenuProps,
         }) => (
           <div className="column1">
-            <Label {...getLabelProps()}>Search Address</Label>
+            <Label {...getLabelProps()}>Address Form</Label>
             <div className="form">
               <Input
                 {...getInputProps({
                   placeholder: "Search Address",
                 })}
               />
-              {selectedItem ? (
-                <ControllerButton
-                  onClick={clearSelection}
-                  aria-label="clear selection"
-                >
-                  <XIcon />
-                </ControllerButton>
-              ) : (
-                <ControllerButton {...getToggleButtonProps()}>
-                  <ArrowIcon isOpen={isOpen} />
-                </ControllerButton>
-              )}
             </div>
             <div {...css({ position: "relative", zIndex: 1000 })}>
               <Menu {...getMenuProps({ isOpen })}>
@@ -207,12 +200,12 @@ export default function Search() {
                   setTheCountry(event.target.value);
                 }}
               />
-              <FlyToButton />
+              <button onClick={handleSubmit}>Submit</button>
             </form>
           </div>
         )}
       </Downshift>
-      <MapContainer ref={setMap} center={latLong} zoom={12}>
+      <MapContainer ref={setMap} center={latLong} zoom={1}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       </MapContainer>
     </div>
