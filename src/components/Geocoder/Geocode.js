@@ -4,7 +4,8 @@ import debounce from "lodash.debounce";
 import { useEffect, useReducer } from "react";
 
 // Replace with your API key from the ArcgGIS for Developers' dashboard. This example is for demo purposes only - do not include your API Key in production code.
-const API_KEY = "YOUR_API_KEY";
+const API_KEY =
+  "AAPK15c8893661684d8e9e50ec33288e02e4gAytH4zbf9u7eRrv1pv4W9DTIZM0PRCpmX5KDQ8VRnaroJp9SG6AqcJToLbjV2EZ";
 
 const initialState = {
   data: undefined,

@@ -1,4 +1,18 @@
 .leaflet-container {
-  width: 100%;
-  height: 100vh;
+  width: 50%;
+  height: 60vh;
+  margin-right: 50px;
+}
+
+.box {
+  display: flex;
+}
+
+.column1 {
+  flex: 1;
+}
+
+.form {
+  width: 50%;
+  margin: auto;
 }
