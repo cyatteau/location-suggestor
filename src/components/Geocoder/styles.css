@@ -16,3 +16,10 @@
   width: 50%;
   margin: auto;
 }
+
+.warning {
+  margin: 10px;
+  color: rgb(131, 7, 7);
+  font-weight: 600;
+  font-size: large;
+}

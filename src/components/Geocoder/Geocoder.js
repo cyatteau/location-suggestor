@@ -1,5 +1,5 @@
 import { React, useEffect, useState, useRef } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import Downshift from "downshift";
 import { geocode } from "@esri/arcgis-rest-geocoding";
@@ -18,7 +18,8 @@ import {
 } from "./styles";
 import { Suggest } from "./Geocode";
 
-const API_KEY = "YOUR_API_KEY";
+const API_KEY = "YOUR_API_KEY"
+
 const authentication = new ApiKeyManager({ key: API_KEY });
 
 export default function Search() {
@@ -27,7 +28,7 @@ export default function Search() {
   const [theCity, setTheCity] = useState("");
   const [theState, setTheState] = useState("");
   const [theCountry, setTheCountry] = useState("");
-  const [latLong, setLatLong] = useState([38.80133, -77.06799]);
+  const [latLong, setLatLong] = useState([0, 0]);
   const [map, setMap] = useState(null);
 
   const geocodeResult = ({ selectedItem }) => {
@@ -39,7 +40,7 @@ export default function Search() {
         outFields: "*",
         authentication,
       }).then((res) => {
-        console.log(res.candidates[0]);
+        //console.log(res.candidates[0]);
         const theResult = res.candidates[0];
         setLatLong([theResult.location.y, theResult.location.x]);
         handleTheResult(theResult);
@@ -81,7 +82,7 @@ export default function Search() {
       countryCode: theCountry,
       authentication,
     }).then((res) => {
-      console.log(res.candidates[0].score);
+      //console.log(res.candidates[0].score);
       if (res.candidates[0].score < 99) {
         setStuff("Please check address");
         ShowWarning();
@@ -94,13 +95,15 @@ export default function Search() {
   }
 
   function ShowWarning() {
-    return <div>{stuff}</div>;
+    return <div className="warning">{stuff}</div>;
   }
 
   return (
     <div className="box">
       <Downshift
-        itemToString={(item) => (item ? item.text : "")}
+        itemToString={(item) =>
+          item ? item.text.substring(0, item.text.indexOf(",")) : ""
+        }
         onStateChange={geocodeResult}
         onSelect={geocodeResult}
       >
@@ -171,17 +174,8 @@ export default function Search() {
                   );
                 })()}
               </Menu>
-              <br />
-              <br />
             </div>
             <form onSubmit={handleSubmit} className="form">
-              <Input
-                placeholder="ADDRESS"
-                defaultValue={theAddress}
-                onChange={(event) => {
-                  setTheAddress(event.target.value);
-                }}
-              />
               <Input placeholder="Apartment, unit, suite, or floor #" />
               <Input
                 placeholder="City"
@@ -219,6 +213,7 @@ export default function Search() {
       </Downshift>
       <MapContainer ref={setMap} center={latLong} zoom={1}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <Marker position={latLong}></Marker>
       </MapContainer>
     </div>
   );

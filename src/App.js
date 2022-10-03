@@ -1,17 +1,10 @@
 import React from "react";
 import Geocoder from "./components/Geocoder/Geocoder";
+import "./App.css";
 
 function App() {
   return (
-    <div
-      style={{
-        marginTop: "50px",
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        textAlign: "center",
-      }}
-    >
+    <div className="container">
       <h2>Location Suggestor</h2>
       <Geocoder />
     </div>

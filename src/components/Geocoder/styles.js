@@ -45,6 +45,7 @@ const Input = styled("input")(
   {
     width: "100%", // full width - icon width/2 - border
     fontSize: 14,
+    margin: "5px",
     wordWrap: "break-word",
     lineHeight: "1em",
     outline: 0,
