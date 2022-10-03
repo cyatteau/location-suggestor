@@ -39,7 +39,7 @@ export function Suggest({ address, children }) {
     const fetchData = debounce(async () => {
       try {
         const res = await suggest(address, {
-          params: { location: [-76.6162, 39.3043], maxSuggestions: 5 },
+          params: { maxSuggestions: 5 },
           authentication,
         });
         dispatch({ type: "FETCH_SUCCESS", payload: res.suggestions });
