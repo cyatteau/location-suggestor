@@ -40,6 +40,7 @@ export default function Search() {
         outFields: "*",
         authentication,
       }).then((res) => {
+        console.log(res.candidates[0]);
         const theResult = res.candidates[0];
         setLatLong([theResult.location.y, theResult.location.x]);
         handleTheResult(theResult);
@@ -70,20 +71,31 @@ export default function Search() {
       : allItems;
   };
 
+  const [stuff, setStuff] = useState("");
   function handleSubmit(event) {
     event.preventDefault();
     geocode({
       address: theAddress,
+      city: theCity,
+      region: theState,
       postal: thePostal,
-      countryCode: "USA",
+      countryCode: theCountry,
       authentication,
     }).then((res) => {
-      console.log(res.candidates);
+      console.log(res.candidates[0].score);
+      if (res.candidates[0].score < 99) {
+        setStuff("Please check address");
+        ShowWarning();
+      }
       map.setView(
         [res.candidates[0].location.y, res.candidates[0].location.x],
         12
       );
     });
+  }
+
+  function ShowWarning() {
+    return <div>{stuff}</div>;
   }
 
   return (
@@ -180,7 +192,7 @@ export default function Search() {
                 }}
               />
               <Input
-                placeholder="State"
+                placeholder="State/Region"
                 defaultValue={theState}
                 onChange={(event) => {
                   setTheState(event.target.value);
@@ -200,8 +212,9 @@ export default function Search() {
                   setTheCountry(event.target.value);
                 }}
               />
-              <button onClick={handleSubmit}>Submit</button>
+              <button>Submit</button>
             </form>
+            <ShowWarning />
           </div>
         )}
       </Downshift>
