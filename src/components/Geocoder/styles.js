@@ -19,22 +19,23 @@ const Item = styled("li")(
     textTransform: "none",
     fontWeight: "400",
     boxShadow: "none",
-    padding: ".8rem 1.1rem",
+    padding: ".8rem",
     whiteSpace: "normal",
-    wordWrap: "normal"
+    wordWrap: "normal",
+    textAlign: "center",
   },
   ({ isActive, isSelected }) => {
     const styles = [];
     if (isActive) {
       styles.push({
         color: "rgba(0,0,0,.95)",
-        background: "rgba(0,0,0,.03)"
+        background: "rgba(0,0,0,.03)",
       });
     }
     if (isSelected) {
       styles.push({
         color: "rgba(0,0,0,.95)",
-        fontWeight: "700"
+        fontWeight: "700",
       });
     }
     return styles;
@@ -61,8 +62,8 @@ const Input = styled("input")(
     transition: "box-shadow .1s ease,width .1s ease",
     [onAttention]: {
       borderColor: "#96c8da",
-      boxShadow: "0 2px 3px 0 rgba(34,36,38,.15)"
-    }
+      boxShadow: "0 2px 3px 0 rgba(34,36,38,.15)",
+    },
   },
   ({ isOpen }) =>
     isOpen
@@ -70,8 +71,8 @@ const Input = styled("input")(
           borderBottomLeftRadius: "0",
           borderBottomRightRadius: "0",
           [onAttention]: {
-            boxShadow: "none"
-          }
+            boxShadow: "none",
+          },
         }
       : null
 );
@@ -80,16 +81,16 @@ const Label = styled("label")({
   fontSize: 16,
   fontWeight: "bold",
   display: "block",
-  marginBottom: 10
+  marginBottom: 10,
 });
 
 const BaseMenu = styled("ul")(
   {
     padding: 0,
-    marginTop: 0,
+    margin: "0 23%",
     position: "absolute",
     backgroundColor: "white",
-    width: "100%",
+    width: "60%",
     maxHeight: "20rem",
     overflowY: "auto",
     overflowX: "hidden",
@@ -102,10 +103,10 @@ const BaseMenu = styled("ul")(
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderLeftWidth: 1,
-    borderStyle: "solid"
+    borderStyle: "solid",
   },
   ({ isOpen }) => ({
-    border: isOpen ? null : "none"
+    border: isOpen ? null : "none",
   })
 );
 
@@ -125,7 +126,7 @@ const ControllerButton = styled("button")({
   flexDirection: "column",
   height: "100%",
   justifyContent: "center",
-  alignItems: "center"
+  alignItems: "center",
 });
 
 function ArrowIcon({ isOpen }) {
